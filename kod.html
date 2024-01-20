@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encryption/Decryption</title>
+</head>
+<body>
+
+<textarea id="inputText" rows="4" cols="50" placeholder="Enter text"></textarea><br>
+
+<button onclick="encrypt()">Encrypt</button>
+<button onclick="decrypt()">Decrypt</button><br>
+
+<textarea id="outputText" rows="4" cols="50" placeholder="Result"></textarea>
+
+<script>
+  const encryptionRules = {
+    'A': '.', 'B': '..', 'C': '…', 'D': '….', 'E': '…..',
+    'F': '|', 'G': '||', 'H': '|||', 'I': '||||', 'J': '|||||',
+    'K': '%', 'L': '%%', 'M': '%%%', 'N': '%%%%', 'O': '%%%%%',
+    'P': '*', 'Q': '**', 'R': '***', 'S': '****', 'T': '*****',
+    'U': '#', 'V': '##', 'W': '###', 'X': '####', 'Y': '#####', 'Z': '€',
+    '0': '?', '1': '^', '2': '^^', '3': '^^^', '4': '^^^^', '5': '^^^^^',
+    '6': '^^^^^^', '7': '^^^^^^^', '8': '^^^^^^^^', '9': '^^^^^^^^^'
+  };
+
+  function encrypt() {
+    const inputText = document.getElementById('inputText').value.toUpperCase();
+    let encryptedText = '';
+
+    for (const char of inputText) {
+      if (char in encryptionRules) {
+        encryptedText += encryptionRules[char] + ' ';
+      } else if (char === ' ') {
+        encryptedText += '  ';
+      } else {
+        encryptedText += char + ' ';
+      }
+    }
+
+    document.getElementById('outputText').value = encryptedText.trim();
+  }
+
+  function decrypt() {
+    const inputText = document.getElementById('inputText').value.split('  ');
+    let decryptedText = '';
+
+    for (const word of inputText) {
+      const tokens = word.split(' ');
+      for (const token of tokens) {
+        for (const [key, value] of Object.entries(encryptionRules)) {
+          if (value === token) {
+            decryptedText += key;
+          }
+        }
+      }
+      decryptedText += ' ';
+    }
+
+    document.getElementById('outputText').value = decryptedText.trim();
+  }
+</script>
+
+</body>
+</html>
